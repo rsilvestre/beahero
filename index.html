@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>Flint And Flame</title>
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/application.css" rel="stylesheet">
+
+		<script src="js/libs/jquery-1.10.2.js"></script>
+		<script src="js/libs/handlebars-1.1.2.js"></script>
+		<script src="js/libs/ember-1.3.1.js"></script>
+		<script src="js/libs/ember-data.js"></script>
+		<script src="js/libs/ember-table.js"></script>
+		<script src="js/libs/bootstrap.js"></script>
+		<script src="js/app.js"></script>
+	</head>
+	<body>
+		<script type='text/x-handlebars' data-template-name="application">
+			<div class='navbar navbar-default'>
+				<div class='container'>
+					<a href='#' class='navbar-brand'><img src='images/logo.png' alt='logo' height='34' width='224' /></a>
+					<ul class='nav navbar-nav navbar-right'>
+						{{#link-to 'index' tagName="li"}}Home{{/link-to}}
+						{{#link-to 'articles' tagName="li"}}Articles{{/link-to}}
+						<li class="dropdown">
+							<a href="#" id="drop3" role="button" class="dropdown-toggle dropdown-display" data-toggle="dropdown">Product <b class="caret"></b></a>
+					  		<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								{{#link-to 'tariff' tagName="li"}}Tariffs{{/link-to}}
+								{{#link-to 'contact' tagName="li"}}Contact{{/link-to}}
+								{{#link-to 'register' tagName="li"}}Register{{/link-to}}
+							</ul>
+						</li>
+						{{#link-to 'media' tagName="li"}}Media{{/link-to}}
+						{{#link-to 'register' tagName="li"}}Register{{/link-to}}
+						{{#link-to 'about' tagName="li"}}About{{/link-to}}
+					</ul>
+				</div>
+			</div>
+			<div class='container'>
+				{{outlet}}
+			</div>
+			<footer class='container'>
+				<hr />
+				<p class='pull-left'>&copy; 2013 The Flint &amp; Flame</p>
+				<p class='pull-right'>
+					{{#link-to 'credits'}}Credits{{/link-to}}
+				</p>
+			</footer>
+		</script>
+		<script type="text/x-handlebars" data-template-name="dropdown">
+
+		</script>
+		<script type="text/x-handlebars" data-template-name="index">
+			<div class="jumbotron">
+				<h1>Welcome to The Flint &amp; Flame!</h1>
+				<p>Bonjour M. {{userName}}.</p>
+				<p class="tagline">
+					<img {{bind-attr src='logo'}} alt='Logo' />
+					Everything you need to make it through the winter.
+				</p>
+				<p>
+				</p>
+			</div>
+			<p>Nous sommes exactement le: {{time}}</p>
+		</script>
+		<script type="text/x-handlebars" data-template-name="articles">
+			<div class="jumbotron">
+				<h1>Articles</h1>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-12 blog-main">
+						{{#each}}
+							<div class="blog-post">
+								<h2 class="blog-post-title">{{#link-to 'article' this}}{{title}}{{/link-to}}</h2>
+								<p class="blog-post-meta">{{createdAt}} by <a href="#">{{author.userName}}</a></p>
+								<p class="blog-post-body">{{intro}}</p>
+							</div>
+						{{/each}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+		<script type='text/x-handlebars' data-template-name="article">
+			<div class="jumbotron">
+				<h1>Article</h1>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-12 blog-main">
+							<div class="blog-post">
+								<h2 class="blog-post-title">{{#link-to 'article' this}}{{title}}{{/link-to}}</h2>
+								<p class="blog-post-meta">{{createdAt}} by <a href="#">{{author.userName}}</a></p>
+								<p class="blog-post-body">{{text}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</script>
+		<script type="text/x-handlebars" data-template-name="tariff">
+			<div class="jumbotron table-responsive">
+				<h1>Tarifs</h1>
+				<p class="text-warning">
+					Tous nos pris sont hors tva!
+				</p>
+				<table class="table table-hover">
+					<tr class="active">
+						<th></th><th>2 acteurs</th><th>3 acteurs</th><th>4 acteurs</th><th>5 acteurs +10 figurants</th><th>15 acteurs +300 figurants</th>
+					</tr>
+					<tr>
+						<td>Cadre contemporain</td><td>6000 €</td><td>8000 €</td><td>10000 €</td><td>40000 €</td><td>400000 €</td>
+					<tr>
+					<tr>
+						<td>Moyen-âge</td><td>9000 €</td><td>12000 €</td><td>15000 €</td><td>80000 €</td><td>650000 €</td>
+					<tr>
+					<tr>
+						<td>Western</td><td>9000 €</td><td>12000 €</td><td>15000 €</td><td>75000 €</td><td>600000 €</td>
+					</tr>
+					<tr>
+						<td>Heroic Fantasy (elfes, kobolds,...)</td><td>14000 €</td><td>17000 €</td><td>20000 €</td><td>100000 €</td><td>750000 €</td>
+					</tr>
+					<tr>
+						<td>Scène spatiale</td><td>14000 €</td><td>17000 €</td><td>20000 €</td><td>110000 €</td><td>750000 €</td>
+					</tr>
+				</table>
+				<p class="bg-info tariff-contact">
+					Si vous êtes itéressé par nos services, n'hésitez pas à nous contacter en vous rendant sur la page {{#link-to 'contact'}}contact{{/link-to}}
+				</p>
+			</div>
+			
+		</script>
+		<script type="text/x-handlebars" data-template-name="media">
+			<div class="jumbotron">
+				<h1>Media</h1>
+				{{render 'video'}}
+			</div>
+		</script>
+		<script type="text/x-handlebars" data-template-name="video">
+			<div>
+			    {{view App.Video class="center-block" poster="images/bigbuckbunny2008720pblu.jpg" width="600px" controllerBinding="App.videoController"}}
+		    </div>
+		</script>​
+		<script type="text/x-handlebars" data-template-name="register">
+			<div class='jumbotron'>
+				<div class='new-register'>
+					<h1>Send a registration email</h1>
+					{{#if thankyou}}
+					<p class="text-success">
+					{{thankyou}}
+					</p>
+					{{else}}
+					{{#if alert}}
+						<div class="bg-danger alert">
+							{{alert}}
+						</div>
+					{{/if}}
+					<form class="form-horizontal" role="form" action="MAILTO:someone@example.com" method="post" enctype="text/plain">
+						<div class="form-group">
+							<label for="userName" class="col-sm-2 control-label">Name: </label>
+							<div class="col-sm-10">
+								{{input valueBinding="userName" class="form-control" placeholder=userNameValue}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-2 control-label">Description: </label>
+							<div class="col-sm-10">
+								{{textarea rows="5" class="form-control" valueBinding="description" placeholder=descriptionValue}}
+							</div>
+						</div>
+						<div class="form-group checkbox">
+							<label for="confirm" class="col-sm-2 control-label">Confirm: </label>
+							<div class="col-sm-10">
+								{{input type="checkbox" class="form-control" checkedBinding="confirm"}}
+							</div>
+						</div>
+						<div class="form-group checkbox">
+							<label for="major" class="col-sm-2 control-label">Major: </label>
+							<div class="col-sm-10">
+								{{input type="checkbox" class="form-control" checkedBinding="major"}}
+							</div>
+						</div>
+						<div class="form-group">
+							    <div class="col-sm-offset-2 col-sm-10">
+									<button {{action "createUser"}} onclick="submit" class="btn btn-primary">Send</button>
+								</div>
+						</div>
+					<form>
+					{{/if}}
+				</div>
+			</div>
+		</script>
+		<script type="text/x-handlebars" data-template-name="about">
+			<div class="jumbotron">
+				<h1>About The Fire Spirits</h1>
+
+			</div>
+		</script>
+		<script type="text/x-handlebars" data-template-name="credits">
+			<div class="jumbotron">
+				<h1>Thank you to visit us</h1>
+				<p>
+				Ce site a été réalisé dans le cadre du cours de Interface Web de 3ème année de Bachelier à l'EPHEC<span class="glyphicon glyphicon-copyright-mark"></span> année 2013-2014.
+				</p>
+				<p>
+					Ce cours est organisé par le professeur François KOEUNE
+					<ul class="col-sm-offset-1">
+						<li>
+							<span class="glyphicon glyphicon-hand-right"></span> Chargé de recherches à l’UCL
+						</li>
+						<li>
+							<span class="glyphicon glyphicon-hand-right"></span> Consultant pour K2Crypt
+						</li>
+						<li>
+							<span class="glyphicon glyphicon-hand-right"></span> Spécialisation: cryptographie
+						</li>
+					</ul>
+				</p>
+			</div>
+		</script>
+		<script type="text/x-handlebars" data-template-name="contact">
+			<div class="jumbotron">
+				<div class='new-contact'>
+					<h1>Contact email</h1>
+					{{#if thankyou}}
+					<p class="text-success">
+					{{thankyou}}
+					</p>
+					{{else}}
+					{{#if alert}}
+						<div class="bg-danger alert">
+							{{alert}}
+						</div>
+					{{/if}}
+					<form class="form-horizontal" role="form" action="MAILTO:someone@example.com" method="post" enctype="text/plain">
+						<div class="form-group">
+							<label for="userName" class="col-sm-2 control-label">Nom: </label>
+							<div class="col-sm-10">
+								{{input valueBinding="userName" class="form-control" placeholder=userNameValue}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-sm-2 control-label">Email: </label>
+							<div class="col-sm-10">
+								{{input valueBinding="email" class="form-control" placeholder=emailValue}}
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="message" class="col-sm-2 control-label">Message: </label>
+							<div class="col-sm-10">
+								{{textarea rows="5" class="form-control" valueBinding="message" placeholder=messageValue}}
+							</div>
+						</div>
+						<div class="form-group">
+							    <div class="col-sm-offset-2 col-sm-10">
+									<button {{action "createContact"}} onclick="submit" class="btn btn-primary">Send</button>
+								</div>
+							</div>
+						</div>
+					<form>
+					{{/if}}
+				</div>
+			</div>
+		</script>
+	</body>
+</html>
