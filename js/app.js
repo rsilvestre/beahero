@@ -34,7 +34,13 @@ App.ArticleRoute = Ember.Route.extend({
 });
 
 App.IndexController = Ember.ArrayController.extend({
-	userName: 'Michael',
+	userName: function() {
+		var name = readCookie("name")
+		if (name) {
+			return name + ' content de vous revoir.';
+		}
+		return ' et bienvenu sur le site de Be a Hero!';
+	}.property(),
 	logo: 'images/logo.png',
 	time: function() {
 		return (new Date()).toDateString();
@@ -64,8 +70,7 @@ App.ContactController = Ember.ObjectController.extend({
 				createdAt: new Date()
 			});
 			var controller = this;
-			contact.save().then(function(contact){
-				var body = 'name=' + contact.get('userName') + '\n' +
+			contact.save().then(function(contact){				var body = 'name=' + contact.get('userName') + '\n' +
 						'email=' + contact.get('email') + '\n' +
 						'message=' + contact.get('message');
 
@@ -119,6 +124,7 @@ App.RegisterController = Ember.ObjectController.extend({
 			user.save().then(function(user){
 				//controller.get('model.register').addObject(user);
 				//controller.get('userName');
+				createCookie('name', user.get('userName'), 365);
 
 				var body = 'name=' + user.get('userName') + '\n' +
 						'description=' + user.get('description') + '\n' +
@@ -226,6 +232,69 @@ App.Articles.FIXTURES = [
 	author: 1
 }
 ];
+
+(function() {
+    var e = document.createElement('link'); 
+    e.href = 'css/application.css';
+    e.type = 'text/css';
+    e.rel = 'stylesheet';
+    e.media = 'screen';
+    //document.getElementsByTagName('head')[0].appendChild(e);      
+}());
+
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+
+    if(readCookie('css')){
+        var e = document.getElementById('dark-css'); // <link href="..." id="test-css"/>
+        e.href = 'css/' + readCookie('css'); 
+    } else {
+    	createCookie("css", "anakin.css", 365);
+    }
+
+    var element = document.getElementById('change-css'); // <a herf="#" id="change-css" rel="file.css">Click Here</a>
+    element.addEventListener('click', function (event) { 
+        //var e = document.getElementById('dark-css');
+        var cssResult = "";
+        if (readCookie("css") == "anakin.css") {
+			cssResult = "darkvador.css";
+        } else {
+        	cssResult = "anakin.css";
+        }
+        $('#dark-css').attr('href', 'css/' + cssResult);
+        //e.href = 'css/' + cssResult;
+        if(readCookie('css')){  
+            eraseCookie('css');     
+        }
+        createCookie('css',cssResult,365); 
+        event.preventDefault(); 
+    }, false);
+})
+
 /*
 App.Router.map(function() {
   // put your routes here
