@@ -1,0 +1,107 @@
+html {
+	background: #222222;
+}
+
+body {
+	background: #434242;
+}
+
+.jumbotron {
+	background: #6b5e5e;
+}
+
+h1 {
+	color: #e1dddd !important;
+}
+
+p {
+	color: #e1dddd;
+}
+
+li {
+	color: #e1dddd;
+}
+
+label {
+	color: #e1dddd;
+}
+
+.navbar-default {
+	background-color: #2c2828;
+}
+
+h2.blog-post-title > a{
+	color: #598ee5;
+}
+
+.blog-post-meta > a{
+	color: #598ee5;
+}
+
+tr {
+	background-color: #c6c2c2;
+}
+
+
+.navbar-default .navbar-nav > li {
+  background-color: #3d5082;
+  color: #f0eee1;
+}
+.navbar-default .navbar-nav > li:hover {
+  background-color: #98cff5;
+}
+.navbar-default .navbar-nav > li.active {
+  color: #fff;
+  background-color: #4992ef;
+}
+
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+    background-color: #2a4eec;
+	color: #f2f0f0;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #f0eee1;
+}
+
+.dropdown-menu > li {
+    background: #3d5e82;
+	font-size: 20px;
+}
+
+.dropdown-menu > li:hover {
+  background-color: #5894f2;
+}
+
+.dropdown-menu > li.active {
+  color: #fff;
+  background-color: #4871d7;
+}
+
+p.bg-info.tariff-contact {
+	color: #432a2a;
+}
+
+p.bg-info.tariff-contact > a{
+	color: #3a8ceb;
+}
+
+p.text-warning {
+	color: #ffffff;
+}
+
+.blog-post {
+  background: #3d3634;
+	border: 1px solid #240c0c;
+	-moz-box-shadow: 1px 1px 1px;
+	box-shadow: 1px 1px 1px;
+}
+
+address {
+	color: #dcdcdf;
+}
+
+div.col-sm-8, em {
+	color: #eefba2;
+}

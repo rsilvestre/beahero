@@ -1,0 +1,45 @@
+body {
+	background: white;
+}
+
+
+.navbar-default .navbar-nav > li {
+  background-color: #824d3d;
+  color: #f0eee1;
+}
+.navbar-default .navbar-nav > li:hover {
+  background-color: #e87714;
+}
+.navbar-default .navbar-nav > li.active {
+  color: #fff;
+  background-color: #b65a31;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+    background-color: #e87714;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #f0eee1;
+}
+
+.dropdown-menu > li {
+    background: #824d3d;
+	font-size: 20px;
+}
+
+.dropdown-menu > li:hover {
+  background-color: #e87714;
+}
+
+.dropdown-menu > li.active {
+  color: #fff;
+  background-color: #b65a31;
+}
+
+.blog-post {
+  background: #dfdfdf;
+  	border: 1px solid #c3baba;
+  	-moz-box-shadow: 1px 1px 1px #cfcaca;
+  	box-shadow: 1px 1px 1px #cfcaca;
+}

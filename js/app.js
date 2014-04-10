@@ -250,9 +250,13 @@ function createCookie(name,value,days) {
     }
     else var expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
+    localStorage.setItem(name, value);
 }
 
 function readCookie(name) {
+	if (window.chrome) {
+		return localStorage.getItem(name);
+	}
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
     for(var i=0;i < ca.length;i++) {
@@ -264,17 +268,17 @@ function readCookie(name) {
 }
 
 function eraseCookie(name) {
+	localStorage.removeItem(name);
     createCookie(name,"",-1);
 }
 
 document.addEventListener('DOMContentLoaded',function(){
 
-    if(readCookie('css')){
-        var e = document.getElementById('dark-css'); // <link href="..." id="test-css"/>
-        e.href = 'css/' + readCookie('css'); 
-    } else {
+    if(!readCookie('css')){
     	createCookie("css", "anakin.css", 365);
     }
+    var e = document.getElementById('dark-css'); // <link href="..." id="test-css"/>
+    e.href = 'css/' + readCookie('css'); 
 
     var element = document.getElementById('change-css'); // <a herf="#" id="change-css" rel="file.css">Click Here</a>
     element.addEventListener('click', function (event) { 
@@ -293,7 +297,7 @@ document.addEventListener('DOMContentLoaded',function(){
         createCookie('css',cssResult,365); 
         event.preventDefault(); 
     }, false);
-})
+});
 
 /*
 App.Router.map(function() {
