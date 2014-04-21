@@ -201,10 +201,33 @@ strong {
     visibility: hidden
 }
 
+@media (max-width: 766px){
+	.navbar{
+	    margin: 0 auto;
+	    float:none;
+	}
+}
+
+.navbar-brand {
+	display: block;
+	float:left;
+	padding:8px 15px;
+	font-size:18px;
+	line-height:10px;
+	min-height:50px
+}
+
 .navbar-default .navbar-nav > li {
   cursor: pointer;
-  padding: 12px 12px;
   font-weight: bold;
+}
+
+.navbar-default .navbar-nav > li.ember-view {
+  padding: 11px 11px;
+}
+
+.navbar-default .navbar-nav > li.dropdown {
+  padding: 11px 0px;
 }
 
 textarea {
