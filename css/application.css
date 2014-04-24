@@ -1,130 +1,6 @@
-article, aside, details, figcaption, figure, footer, header, hgroup,
-main, nav, section, summary {
-    display: block
-}
-
-audio, canvas, video {
-    display: inline-block
-}
-
 html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%
-}
-
-body {
-    margin: 0
-}
-
-ol, ul, li {
-    list-style: none;
-    margin: 0;
-    padding: 0
-}
-
-table.table {
-	border-radius: 8px;
-}
-
-a:focus {
-    outline: thin dotted
-}
-
-a:active, a:hover {
-    outline: 0
-}
-
-strong {
-    font-weight: bold
-}
-
-b {
-    font-weight: inherit
-}
-
-i {
-    font-style: inherit
-}
-
-dfn {
-    font-style: italic
-}
-
-code, kbd, pre, samp {
-    font-family: monospace, serif;
-    font-size: 1em
-}
-
-pre {
-    white-space: pre-wrap
-}
-
-small {
-    font-size: 80%
-}
-
-sub, sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline
-}
-
-sup {
-    top: -0.5em
-}
-
-sub {
-    bottom: -0.25em
-}
-
-img {
-    border: 0
-}
-
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: 100%;
-    margin: 0
-}
-
-button, input {
-    line-height: normal
-}
-
-button, html input[type="button"], input[type="reset"], input[type="submit"] {
-    -webkit-appearance: button;
-    cursor: pointer
-}
-
-button[disabled], html input[disabled] {
-    cursor: default
-}
-
-input[type="checkbox"], input[type="radio"] {
-    box-sizing: border-box;
-    padding: 0
-}
-
-button::-moz-focus-inner, input::-moz-focus-inner {
-    border: 0;
-    padding: 0
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0
-}
-
-@font-face {
-    font-family: "Course";
-    src: url(//d3or20s5xasiws.cloudfront.net/assets/course-0628f70f3f23068775f16c5046445fda.eot);
-    src: url(//d3or20s5xasiws.cloudfront.net/assets/course-0628f70f3f23068775f16c5046445fda.eot?#iefix) format("embedded-opentype"), url(//d3or20s5xasiws.cloudfront.net/assets/course-008327c37e2e294883c0b184061f3ad9.woff) format("woff"), url(//d3or20s5xasiws.cloudfront.net/assets/course-5eac603bc447adf178feb30b9aac8c48.ttf) format("truetype"), url(//d3or20s5xasiws.cloudfront.net/assets/course-5dc27fcf0c261e56c004a41667834ebd.svg#course) format("svg");
-    font-weight: normal;
-    font-style: normal
-}
-
-html {
     background: #f0eee1;
     color: #454551;
     font-family: "Trade Gothic W01 Roman", serif;
@@ -169,22 +45,6 @@ h4 {
     margin: 0 0 0.52632em
 }
 
-a {
-    color: #eb8c2a;
-    text-decoration: none
-}
-
-a:hover, a:focus {
-    color: #b76611
-}
-
-code {
-    font-family: monospace
-}
-
-strong {
-    font-weight: bold
-}
 
 ::selection {
     background: rgba(69, 69, 81, 0.5);
@@ -303,9 +163,16 @@ textarea {
 .controll > a {
 	color: red;
 	font-size: 16px;
-	
 }
 
 img.presentation-firstpage {
 	width: 300px;
+}
+
+
+
+.new-register-greeting {
+	padding: 10px;
+	border: 1px solid white;
+	border-radius: 5px;
 }

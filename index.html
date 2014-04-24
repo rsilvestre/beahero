@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15">
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -95,7 +95,7 @@
 						<div class="col-sm-12 blog-main">
 							<div class="blog-post">
 								<h2 class="blog-post-title">{{title}}</h2>
-								<p class="blog-post-meta">{{formattedDate}} ({{digital_clock clock.pulse date}})</p>
+								<p class="blog-post-meta">{{formattedDate}} ({{digital_countdown clock.pulse date}})</p>
 								<div class="row">
 									<div class="col-sm-8">
 										<p class="blog-post-body">{{description}}</p>
@@ -173,7 +173,7 @@
 					</div>
 				</div>
 			</div>
-			<p>Nous sommes exactement le: {{time}}</p>
+			<p>Nous sommes le {{digital_clock clock.pulse time}}</p>
 		</script>
 		<script type="text/x-handlebars" data-template-name="articles">
 			<div class="jumbotron">
@@ -239,7 +239,7 @@
 					</tr>
 				</table>
 				<p class="bg-info tariff-contact">
-					Si vous êtes itéressé par nos services, n'hésitez pas à nous contacter en vous rendant sur la page {{#link-to 'contact'}}contact{{/link-to}}
+					Si vous êtes intéressés par nos services, n'hésitez pas à nous contacter en vous rendant sur la page {{#link-to 'contact'}}contact{{/link-to}}
 				</p>
 			</div>
 			
@@ -260,7 +260,7 @@
 				<div class='new-register'>
 					<h1>Send a registration email</h1>
 					{{#if thankyou}}
-					<p class="text-success">
+					<p class="text-success new-register-greeting border-radius">
 					{{thankyou}}
 					</p>
 					{{else}}
@@ -348,7 +348,7 @@
 				<div class='new-contact'>
 					<h1>Contact email</h1>
 					{{#if thankyou}}
-					<p class="text-success">
+					<p class="text-success new-register-greeting">
 					{{thankyou}}
 					</p>
 					{{else}}

@@ -1,9 +1,15 @@
+// Création de l'application emberJS
 var App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
+// Déclaration du système de gestion des modèles
+App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+// Set de la langue de l'Horloge 
 moment.lang('fr');
 
+// création d'un objet clock et initialisation d'un compteur
 var ClockService = Ember.Object.extend({
     pulse: Ember.computed.oneWay('_seconds').readOnly(),
     tick: function () {
@@ -18,38 +24,28 @@ var ClockService = Ember.Object.extend({
 	_seconds: 0
 });
 
+// Initialisation des composant au démarrage de l'application
 Ember.Application.initializer({
 	name: 'clockServiceInitializer',
 	initialize: function(container, application) {
 		container.register('clock:service', ClockService);
 		application.inject('controller:agenda', 'clock', 'clock:service');
+		application.inject('controller:index', 'clock', 'clock:service');
 	}
 });
 
-Ember.Handlebars.helper('mailToHelper', function(email, options) {
-	var mailTo = '<a target="_blank" href="mailto:' + email + '">';
-	mailTo += "<span>" + email + "</span></a>";
-	return new Handlebars.SafeString(mailTo);
-});
-
-App.ApplicationAdapter = DS.FixtureAdapter.extend();
-
-App.Router.map(function() {
-	this.route('about');
-	this.resource('articles');
-	this.resource('article', {path: 'article/:articles_id'});
-	this.route('tariff');
-	this.route('media');
-	this.route('credits', {path: 'thanks'});
-	this.route('register');
-	this.route('contact');
-	this.resource('agendas');
-	this.resource('agenda', {path: 'agenda/:agendas_id'});
-});
-
-Ember.Handlebars.registerBoundHelper('digital_clock', function(secondsCounter, toto) {
-	var timeSrc = (new Date(toto)).getTime();
+// Horloge
+Ember.Handlebars.registerBoundHelper('digital_clock', function(secondsCounter, TimeSource) {
+	var timeSrc = (new Date(TimeSource)).getTime();
 	var timeNow = (new Date()).getTime()
+	var timeDiff = moment().format('dddd D MMMM YYYY HH:mm:ss');
+    return new Ember.Handlebars.SafeString(timeDiff);
+});
+
+// Compte à rebours
+Ember.Handlebars.registerBoundHelper('digital_countdown', function(secondsCounter, TimeSource) {
+	var timeSrc = (new Date(TimeSource)).getTime();
+	var timeNow = (new Date()).getTime();
 	var timeDiff = moment.duration(timeSrc - timeNow - secondsCounter , 'milliseconds');
 	var months = timeDiff.months();
 	var days = timeDiff.days();
@@ -73,6 +69,61 @@ Ember.Handlebars.registerBoundHelper('digital_clock', function(secondsCounter, t
     return new Ember.Handlebars.SafeString(formatHMS(months, days, hours, minutes, seconds));
 });
 
+// Routage général
+App.Router.map(function() {
+	this.route('about');
+	this.resource('articles');
+	this.resource('article', {path: 'article/:articles_id'});
+	this.route('tariff');
+	this.route('media');
+	this.route('credits', {path: 'thanks'});
+	this.route('register');
+	this.route('contact');
+	this.resource('agendas');
+	this.resource('agenda', {path: 'agenda/:agendas_id'});
+});
+
+// Routage des agendas
+App.AgendasRoute = Ember.Route.extend({
+	model: function(params) {
+		return this.store.findAll('agendas');
+	}
+});
+
+// Routage d'un agenda
+App.AgendaRoute = Ember.Route.extend({
+	model: function(params) {
+	  	return this.store.find('agendas', params.agendas_id);
+	}
+});
+
+// Routage des articles
+App.ArticlesRoute = Ember.Route.extend({
+	model: function(params) {
+		return this.store.findAll('articles');
+	}
+});
+
+// Routage d'un article
+App.ArticleRoute = Ember.Route.extend({
+	model: function(params) {
+	  	return this.store.find('articles', params.articles_id);
+	}
+});
+
+// Contrôleur des agendas
+App.AgendasController = Ember.ArrayController.extend({
+	sortProperties: ['date'],
+	sortAscending: true
+});
+
+// Contrôleur des articles
+App.ArticlesController = Ember.ArrayController.extend({
+	sortProperties: ['createdAt'],
+	sortAscending: false
+});
+
+// Contrôleur de l'agenda comprenant le compte à rebours
 App.AgendaController = Ember.ObjectController.extend({
     secondsBinding: 'clock.pulse',
     fullSecond: function () {
@@ -89,30 +140,7 @@ App.AgendaController = Ember.ObjectController.extend({
     }.property('seconds')
 });
 
-App.AgendasRoute = Ember.Route.extend({
-	model: function(params) {
-		return this.store.findAll('agendas');
-	}
-});
-
-App.AgendaRoute = Ember.Route.extend({
-	model: function(params) {
-	  	return this.store.find('agendas', params.agendas_id);
-	}
-});
-
-App.ArticlesRoute = Ember.Route.extend({
-	model: function(params) {
-		return this.store.findAll('articles');
-	}
-});
-
-App.ArticleRoute = Ember.Route.extend({
-	model: function(params) {
-	  	return this.store.find('articles', params.articles_id);
-	}
-});
-
+// Contrôleur de la page index
 App.IndexController = Ember.ArrayController.extend({
 	userName: function() {
 		var name = cookies.readCookie("name")
@@ -123,10 +151,24 @@ App.IndexController = Ember.ArrayController.extend({
 	}.property(),
 	logo: 'images/logo.png',
 	time: function() {
-		return moment().format('LLL');
-	}.property()
+		return new Date();//moment().format('LLL');
+	}.property(),
+    secondsBinding: 'clock.pulse',
+    fullSecond: function () {
+		return (this.get('seconds') % 1 === 0);
+    }.property('seconds'),
+    quarterSecond: function () {
+		return (this.get('seconds') % 1 === 1/4);
+    }.property('seconds'),
+    halfSecond: function () {
+		return (this.get('seconds') % 1 === 1/2);
+    }.property('seconds'),
+    threeQuarterSecond: function () {
+		return (this.get('seconds') % 1 === 3/4);
+    }.property('seconds')
 });
 
+// Contrôleur de la page de contact permettant d'envoyer un mail
 App.ContactController = Ember.ObjectController.extend({
 	userName: '',
 	email: '',
@@ -165,6 +207,7 @@ App.ContactController = Ember.ObjectController.extend({
 	}
 });
 
+// Contrôleur de la page d'enregistrement permettant d'envoyer un mail
 App.RegisterController = Ember.ObjectController.extend({
 	userName: '',
 	description: '',
@@ -223,8 +266,10 @@ App.RegisterController = Ember.ObjectController.extend({
 	}
 });
 
+// Création d'un objet permettant l'affichage d'un control vidéo
 App.videoController = Ember.Object.create({
-    src: "http://media.w3.org/2010/05/bunny/trailer.mp4",
+    //src: "http://media.w3.org/2010/05/bunny/trailer.mp4",
+    src: "medias/trailer.mp4",
 
     currentTimeFormatted: function() {
         var currentTime = this.get('currentTime');
@@ -237,6 +282,7 @@ App.videoController = Ember.Object.create({
     }.property('currentTime')
 });
 
+// Affichage d'une vidéo
 App.Video = Ember.View.extend({
     srcBinding: 'controller.src',
     controls: true,
@@ -256,6 +302,19 @@ App.Video = Ember.View.extend({
     }
 });
 
+// Affichage de l'application
+App.ApplicationView = Ember.View.extend({
+	didInsertElement: function() {
+		cookieManager();
+	}
+});
+
+// Function dropdown de la bar de menu
+$('.dropdown-toggle').dropdown();
+
+/// Modèles
+
+// Modèle de contact
 App.Contact = DS.Model.extend({
 	userName: DS.attr('string'),
 	email: DS.attr('string'),
@@ -266,6 +325,7 @@ App.Contact = DS.Model.extend({
 	}.property()
 });
 
+// Modèle d'utilisateur
 App.User = DS.Model.extend({
 	userName: DS.attr('string'),
 	description: DS.attr('string'),
@@ -278,6 +338,7 @@ App.User = DS.Model.extend({
 	}.property()
 });
 
+// Modèle d'article
 App.Articles = DS.Model.extend({
 	title: DS.attr('string'),
 	intro: DS.attr('string'),
@@ -289,6 +350,7 @@ App.Articles = DS.Model.extend({
 	}.property()
 });
 
+// Modèle d'agenda
 App.Agendas = DS.Model.extend({
 	title: DS.attr('string'),
 	description :DS.attr('string'),
@@ -299,8 +361,9 @@ App.Agendas = DS.Model.extend({
 	}.property()
 });
 
-$('.dropdown-toggle').dropdown();
+/// Données
 
+// Données utilisateurs
 App.User.FIXTURES = [
 {
 	id: 1,
@@ -308,18 +371,28 @@ App.User.FIXTURES = [
 	description: '',
 	confirm: true,
 	major: true,
-	createdAt: new Date('January 22, 1976 07:30:00'),
+	createdAt: new Date('January 22, 1976 06:30:00'),
 	articles: [1,2]
+},
+{
+	id: 2,
+	userName: 'Céline Zoetardt',
+	description: '',
+	confirm: true,
+	major: true,
+	createdAt: new Date('May 16, 1982 12:30:00'),
+	articles: [3]
 }
 ];
 
+// Données articles
 App.Articles.FIXTURES = [
 {
 	id: 1,
 	title: 'StarWars',
 	intro: "Star Wars (à l'origine nommée en France et au Québec sous son titre français, La Guerre des étoiles) est une épopée cinématographique de science-fiction créée par George Lucas en 1977. D'abord conçue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite élargie de trois films sortis entre 1999 et 2005 racontant des événements antérieurs aux premiers. Tous ont connu un grand succès commercial et la première trilogie (épisodes IV, V et VI) a reçu un accueil critique très positif, qui ne sera néanmoins pas autant au rendez-vous pour la deuxième trilogie (épisodes I, II et III).",
 	text: "Star Wars (à l'origine nommée en France et au Québec sous son titre français, La Guerre des étoiles) est une épopée cinématographique de science-fiction créée par George Lucas en 1977. D'abord conçue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite élargie de trois films sortis entre 1999 et 2005 racontant des événements antérieurs aux premiers. Tous ont connu un grand succès commercial et la première trilogie (épisodes IV, V et VI) a reçu un accueil critique très positif, qui ne sera néanmoins pas autant au rendez-vous pour la deuxième trilogie (épisodes I, II et III). Dans un souci de cohérence et pour atteindre un résultat qu'il n'avait pas pu obtenir dès le départ, le créateur de la saga a également retravaillé les films de sa première trilogie, ressortis en 1997 et 2004 dans de nouvelles versions. Les droits d'auteur de Star Wars ont été achetés en octobre 2012 par la Walt Disney Company pour un peu plus de 4 milliards de dollars, la sortie au cinéma du VIIe épisode de l'épopée est alors planifiée pour 2015.\n Encore une fois il va falloir empêcher le Conte Dooku de convainqure Anakin de basculer du côté obscure de la force.",
-	createdAt: new Date('January 22, 2014 11:23:00'),
+	createdAt: new Date('March 12, 2014 14:23:00'),
 	author: 1
 },
 {
@@ -327,11 +400,20 @@ App.Articles.FIXTURES = [
 	title: 'Le Seigneur des Anneaux',
 	intro: "L'histoire reprend certains des personnages présentés dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'½uvre est plus complexe et plus sombre. Tolkien entreprend sa rédaction à la demande de son éditeur, Allen & Unwin, à la suite du succès critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir à achever ce nouveau roman qu'il truffe de références et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a été attiré « contre l'intention première » de son auteur",
 	text: "L'histoire reprend certains des personnages présentés dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'½uvre est plus complexe et plus sombre. Tolkien entreprend sa rédaction à la demande de son éditeur, Allen & Unwin, à la suite du succès critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir à achever ce nouveau roman qu'il truffe de références et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a été attiré « contre l'intention première » de son auteur. \n\nVous prendrez part dans le role que vous désirez et deviendrez peut-être le sauveur de la terre du milieu.",
-	createdAt: new Date('January 23, 2014 11:23:00'),
+	createdAt: new Date('April 3, 2014 09:03:00'),
 	author: 1
+},
+{
+	id: 3,
+	title: 'Star Trek',
+	intro: "Star Trek est un univers de science-fiction, créé par Gene Roddenberry, dans les années 1960, qui regroupe six séries télévisées, douze longs métrages, des centaines de romans, de bandes dessinées et des dizaines de jeux vidéo, ainsi qu’une fanfiction importante. Elle est, de manière plus prosaïque, une franchise de télévision et de cinéma appartenant à Paramount Pictures, propriété de la compagnie CBS",
+	text: "Star Trek est un univers de science-fiction, créé par Gene Roddenberry, dans les années 1960, qui regroupe six séries télévisées, douze longs métrages, des centaines de romans, de bandes dessinées et des dizaines de jeux vidéo, ainsi qu’une fanfiction importante. Elle est, de manière plus prosaïque, une franchise de télévision et de cinéma appartenant à Paramount Pictures, propriété de la compagnie CBS.\n\nDans l'univers Star Trek, l'humanité développe le voyage spatial à vitesse supraluminique, via un sub-espace artificiel, suite à une période post-apocalyptique du milieu du xxie siècle (voir le Jour du Premier Contact). Plus tard, l'homme s'unit à d'autres espèces intelligentes de la galaxie pour former la Fédération des planètes unies. À la suite d'une intervention extraterrestre, et grâce à la science, l'humanité surmonte largement ses nombreux vices et faiblesses terrestres, au xxiiie siècle. Les histoires de Star Trek dépeignent souvent les aventures d'êtres humains et d'espèces extra-terrestres qui servent dans Starfleet, ainsi que les nombreux contacts de ceux-ci avec d'autres civilisations.",
+	createdAt: new Date('January 23, 2014 11:45:00'),
+	author: 2
 }
 ];
 
+// Données agendas
 App.Agendas.FIXTURES = [
 {
 	id: 1,
@@ -356,6 +438,8 @@ App.Agendas.FIXTURES = [
 }
 ];
 
+
+// Gestionnaire de cookies et du local storage si on utilise Chrome
 var Cookies = (function() {
 
 	this.createCookie = function(name,value,days) {
@@ -389,9 +473,11 @@ var Cookies = (function() {
 	}
 });
 
+// Instanciation du gestionnaire de cookies
 var cookies = new Cookies();
 
-$(function(){
+// Gestionnaire de feuilles de style (css)
+var cookieManager = function(){
 	var cookies = new Cookies();
 	
     if(!cookies.readCookie('css')){
@@ -419,17 +505,6 @@ $(function(){
         }
         
         cookies.createCookie('css',cssResult,365); 
+        return false;
     });
-});
-
-/*
-App.Router.map(function() {
-  // put your routes here
-});
-
-App.IndexRoute = Ember.Route.extend({
-  model: function() {
-    return ['red', 'yellow', 'blue'];
-  }
-});
-*/
+};

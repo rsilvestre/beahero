@@ -2,6 +2,18 @@ body {
 	background: white;
 }
 
+a {
+    color: #2a92ea;
+    text-decoration: none
+}
+
+a:hover, a:focus {
+    color: #1055b7
+}
+
+.new-register-greeting {
+	background: #f6f5f7;
+}
 
 .navbar-default .navbar-nav > li {
   background-color: #824d3d;
