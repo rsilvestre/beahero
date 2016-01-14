@@ -1,0 +1,72 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "beahero =======",
+  "main": "index.js",
+  "engines": {
+    "node": ">=5.0.0",
+    "npm": "^3.0.0"
+  },
+  "scripts": {
+    "start": "better-npm-run start"
+  },
+  "betterScripts": {
+    "dev": {
+      "command": "nodemon -r dotenv/config bin/server",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "deploy": {
+      "command": "npm run clean && npm run compile",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "start": {
+      "command": "node -r dotenv/config bin/server"
+    },
+    "test": {
+      "command": "node -r dotenv/config ./node_modules/karma/bin/karma start bin/karma.js",
+      "env": {
+        "NODE_ENV": "test"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsilvestre/beahero.git"
+  },
+  "author": "Michael Silvestre <willtard@gmail.com> (http://www.shifterbelt.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rsilvestre/beahero/issues"
+  },
+  "homepage": "https://github.com/rsilvestre/beahero#readme",
+  "dependencies": {
+    "better-npm-run": "0.0.5",
+    "debug": "^2.2.0",
+    "dotenv": "^1.2.0",
+    "koa": "^2.0.0-alpha.3",
+    "koa-connect-history-api-fallback": "^0.3.0",
+    "koa-convert": "^1.2.0",
+    "koa-static": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.17",
+    "babel-eslint": "^5.0.0-beta6",
+    "babel-plugin-add-module-exports": "^0.1.1",
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "babel-runtime": "^6.3.19",
+    "eslint": "^1.10.3",
+    "eslint-config-standard": "^4.4.0",
+    "eslint-loader": "^1.1.1",
+    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-standard": "^1.3.1",
+    "nodemon": "^1.8.1"
+  },
+  "cacheDirectories": ["node_modules", "public" ]
+}

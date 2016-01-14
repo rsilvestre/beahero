@@ -1,15 +1,15 @@
-// Création de l'application emberJS
+// CrÃ©ation de l'application emberJS
 var App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
-// Déclaration du système de gestion des modèles
+// DÃ©claration du systÃ¨me de gestion des modÃ¨les
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
 // Set de la langue de l'Horloge 
 moment.lang('fr');
 
-// création d'un objet clock et initialisation d'un compteur
+// crÃ©ation d'un objet clock et initialisation d'un compteur
 var ClockService = Ember.Object.extend({
     pulse: Ember.computed.oneWay('_seconds').readOnly(),
     tick: function () {
@@ -24,7 +24,7 @@ var ClockService = Ember.Object.extend({
 	_seconds: 0
 });
 
-// Initialisation des composant au démarrage de l'application
+// Initialisation des composant au dÃ©marrage de l'application
 Ember.Application.initializer({
 	name: 'clockServiceInitializer',
 	initialize: function(container, application) {
@@ -42,7 +42,7 @@ Ember.Handlebars.registerBoundHelper('digital_clock', function(secondsCounter, T
     return new Ember.Handlebars.SafeString(timeDiff);
 });
 
-// Compte à rebours
+// Compte Ã  rebours
 Ember.Handlebars.registerBoundHelper('digital_countdown', function(secondsCounter, TimeSource) {
 	var timeSrc = (new Date(TimeSource)).getTime();
 	var timeNow = (new Date()).getTime();
@@ -69,7 +69,7 @@ Ember.Handlebars.registerBoundHelper('digital_countdown', function(secondsCounte
     return new Ember.Handlebars.SafeString(formatHMS(months, days, hours, minutes, seconds));
 });
 
-// Routage général
+// Routage gÃ©nÃ©ral
 App.Router.map(function() {
 	this.route('about');
 	this.resource('articles');
@@ -111,19 +111,19 @@ App.ArticleRoute = Ember.Route.extend({
 	}
 });
 
-// Contrôleur des agendas
+// ContrÃ´leur des agendas
 App.AgendasController = Ember.ArrayController.extend({
 	sortProperties: ['date'],
 	sortAscending: true
 });
 
-// Contrôleur des articles
+// ContrÃ´leur des articles
 App.ArticlesController = Ember.ArrayController.extend({
 	sortProperties: ['createdAt'],
 	sortAscending: false
 });
 
-// Contrôleur de l'agenda comprenant le compte à rebours
+// ContrÃ´leur de l'agenda comprenant le compte Ã  rebours
 App.AgendaController = Ember.ObjectController.extend({
     secondsBinding: 'clock.pulse',
     fullSecond: function () {
@@ -140,7 +140,7 @@ App.AgendaController = Ember.ObjectController.extend({
     }.property('seconds')
 });
 
-// Contrôleur de la page index
+// ContrÃ´leur de la page index
 App.IndexController = Ember.ArrayController.extend({
 	userName: function() {
 		var name = cookies.readCookie("name")
@@ -168,7 +168,7 @@ App.IndexController = Ember.ArrayController.extend({
     }.property('seconds')
 });
 
-// Contrôleur de la page de contact permettant d'envoyer un mail
+// ContrÃ´leur de la page de contact permettant d'envoyer un mail
 App.ContactController = Ember.ObjectController.extend({
 	userName: '',
 	email: '',
@@ -207,7 +207,7 @@ App.ContactController = Ember.ObjectController.extend({
 	}
 });
 
-// Contrôleur de la page d'enregistrement permettant d'envoyer un mail
+// ContrÃ´leur de la page d'enregistrement permettant d'envoyer un mail
 App.RegisterController = Ember.ObjectController.extend({
 	userName: '',
 	description: '',
@@ -266,7 +266,7 @@ App.RegisterController = Ember.ObjectController.extend({
 	}
 });
 
-// Création d'un objet permettant l'affichage d'un control vidéo
+// CrÃ©ation d'un objet permettant l'affichage d'un control vidÃ©o
 App.videoController = Ember.Object.create({
     //src: "http://media.w3.org/2010/05/bunny/trailer.mp4",
     src: "medias/trailer.mp4",
@@ -282,7 +282,7 @@ App.videoController = Ember.Object.create({
     }.property('currentTime')
 });
 
-// Affichage d'une vidéo
+// Affichage d'une vidÃ©o
 App.Video = Ember.View.extend({
     srcBinding: 'controller.src',
     controls: true,
@@ -312,9 +312,9 @@ App.ApplicationView = Ember.View.extend({
 // Function dropdown de la bar de menu
 $('.dropdown-toggle').dropdown();
 
-/// Modèles
+/// ModÃ¨les
 
-// Modèle de contact
+// ModÃ¨le de contact
 App.Contact = DS.Model.extend({
 	userName: DS.attr('string'),
 	email: DS.attr('string'),
@@ -325,7 +325,7 @@ App.Contact = DS.Model.extend({
 	}.property()
 });
 
-// Modèle d'utilisateur
+// ModÃ¨le d'utilisateur
 App.User = DS.Model.extend({
 	userName: DS.attr('string'),
 	description: DS.attr('string'),
@@ -338,7 +338,7 @@ App.User = DS.Model.extend({
 	}.property()
 });
 
-// Modèle d'article
+// ModÃ¨le d'article
 App.Articles = DS.Model.extend({
 	title: DS.attr('string'),
 	intro: DS.attr('string'),
@@ -350,7 +350,7 @@ App.Articles = DS.Model.extend({
 	}.property()
 });
 
-// Modèle d'agenda
+// ModÃ¨le d'agenda
 App.Agendas = DS.Model.extend({
 	title: DS.attr('string'),
 	description :DS.attr('string'),
@@ -361,9 +361,9 @@ App.Agendas = DS.Model.extend({
 	}.property()
 });
 
-/// Données
+/// DonnÃ©es
 
-// Données utilisateurs
+// DonnÃ©es utilisateurs
 App.User.FIXTURES = [
 {
 	id: 1,
@@ -376,7 +376,7 @@ App.User.FIXTURES = [
 },
 {
 	id: 2,
-	userName: 'Céline Zoetardt',
+	userName: 'CÃ©line Zoetardt',
 	description: '',
 	confirm: true,
 	major: true,
@@ -385,35 +385,35 @@ App.User.FIXTURES = [
 }
 ];
 
-// Données articles
+// DonnÃ©es articles
 App.Articles.FIXTURES = [
 {
 	id: 1,
 	title: 'StarWars',
-	intro: "Star Wars (à l'origine nommée en France et au Québec sous son titre français, La Guerre des étoiles) est une épopée cinématographique de science-fiction créée par George Lucas en 1977. D'abord conçue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite élargie de trois films sortis entre 1999 et 2005 racontant des événements antérieurs aux premiers. Tous ont connu un grand succès commercial et la première trilogie (épisodes IV, V et VI) a reçu un accueil critique très positif, qui ne sera néanmoins pas autant au rendez-vous pour la deuxième trilogie (épisodes I, II et III).",
-	text: "Star Wars (à l'origine nommée en France et au Québec sous son titre français, La Guerre des étoiles) est une épopée cinématographique de science-fiction créée par George Lucas en 1977. D'abord conçue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite élargie de trois films sortis entre 1999 et 2005 racontant des événements antérieurs aux premiers. Tous ont connu un grand succès commercial et la première trilogie (épisodes IV, V et VI) a reçu un accueil critique très positif, qui ne sera néanmoins pas autant au rendez-vous pour la deuxième trilogie (épisodes I, II et III). Dans un souci de cohérence et pour atteindre un résultat qu'il n'avait pas pu obtenir dès le départ, le créateur de la saga a également retravaillé les films de sa première trilogie, ressortis en 1997 et 2004 dans de nouvelles versions. Les droits d'auteur de Star Wars ont été achetés en octobre 2012 par la Walt Disney Company pour un peu plus de 4 milliards de dollars, la sortie au cinéma du VIIe épisode de l'épopée est alors planifiée pour 2015.\n Encore une fois il va falloir empêcher le Conte Dooku de convainqure Anakin de basculer du côté obscure de la force.",
+	intro: "Star Wars (Ã  l'origine nommÃ©e en France et au QuÃ©bec sous son titre franÃ§ais, La Guerre des Ã©toiles) est une Ã©popÃ©e cinÃ©matographique de science-fiction crÃ©Ã©e par George Lucas en 1977. D'abord conÃ§ue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite Ã©largie de trois films sortis entre 1999 et 2005 racontant des Ã©vÃ©nements antÃ©rieurs aux premiers. Tous ont connu un grand succÃ¨s commercial et la premiÃ¨re trilogie (Ã©pisodes IV, V et VI) a reÃ§u un accueil critique trÃ¨s positif, qui ne sera nÃ©anmoins pas autant au rendez-vous pour la deuxiÃ¨me trilogie (Ã©pisodes I, II et III).",
+	text: "Star Wars (Ã  l'origine nommÃ©e en France et au QuÃ©bec sous son titre franÃ§ais, La Guerre des Ã©toiles) est une Ã©popÃ©e cinÃ©matographique de science-fiction crÃ©Ã©e par George Lucas en 1977. D'abord conÃ§ue comme une trilogie sortie entre 1977 et 1983, la saga s'est ensuite Ã©largie de trois films sortis entre 1999 et 2005 racontant des Ã©vÃ©nements antÃ©rieurs aux premiers. Tous ont connu un grand succÃ¨s commercial et la premiÃ¨re trilogie (Ã©pisodes IV, V et VI) a reÃ§u un accueil critique trÃ¨s positif, qui ne sera nÃ©anmoins pas autant au rendez-vous pour la deuxiÃ¨me trilogie (Ã©pisodes I, II et III). Dans un souci de cohÃ©rence et pour atteindre un rÃ©sultat qu'il n'avait pas pu obtenir dÃ¨s le dÃ©part, le crÃ©ateur de la saga a Ã©galement retravaillÃ© les films de sa premiÃ¨re trilogie, ressortis en 1997 et 2004 dans de nouvelles versions. Les droits d'auteur de Star Wars ont Ã©tÃ© achetÃ©s en octobre 2012 par la Walt Disney Company pour un peu plus de 4 milliards de dollars, la sortie au cinÃ©ma du VIIe Ã©pisode de l'Ã©popÃ©e est alors planifiÃ©e pour 2015.\n Encore une fois il va falloir empÃªcher le Conte Dooku de convainqure Anakin de basculer du cÃ´tÃ© obscure de la force.",
 	createdAt: new Date('March 12, 2014 14:23:00'),
 	author: 1
 },
 {
 	id: 2,
 	title: 'Le Seigneur des Anneaux',
-	intro: "L'histoire reprend certains des personnages présentés dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'½uvre est plus complexe et plus sombre. Tolkien entreprend sa rédaction à la demande de son éditeur, Allen & Unwin, à la suite du succès critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir à achever ce nouveau roman qu'il truffe de références et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a été attiré « contre l'intention première » de son auteur",
-	text: "L'histoire reprend certains des personnages présentés dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'½uvre est plus complexe et plus sombre. Tolkien entreprend sa rédaction à la demande de son éditeur, Allen & Unwin, à la suite du succès critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir à achever ce nouveau roman qu'il truffe de références et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a été attiré « contre l'intention première » de son auteur. \n\nVous prendrez part dans le role que vous désirez et deviendrez peut-être le sauveur de la terre du milieu.",
+	intro: "L'histoire reprend certains des personnages prÃ©sentÃ©s dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'Å“uvre est plus complexe et plus sombre. Tolkien entreprend sa rÃ©daction Ã  la demande de son Ã©diteur, Allen & Unwin, Ã  la suite du succÃ¨s critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir Ã  achever ce nouveau roman qu'il truffe de rÃ©fÃ©rences et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a Ã©tÃ© attirÃ© Â« contre l'intention premiÃ¨re Â» de son auteur",
+	text: "L'histoire reprend certains des personnages prÃ©sentÃ©s dans Le Hobbit, premier roman de l'auteur paru en 1937, mais l'Å“uvre est plus complexe et plus sombre. Tolkien entreprend sa rÃ©daction Ã  la demande de son Ã©diteur, Allen & Unwin, Ã  la suite du succÃ¨s critique et commercial du Hobbit1. Il lui faut douze ans pour parvenir Ã  achever ce nouveau roman qu'il truffe de rÃ©fÃ©rences et d'allusions au monde du Silmarillion, la Terre du Milieu, sur lequel il travaille depuis 1917 et dans lequel Le Hobbit a Ã©tÃ© attirÃ© Â« contre l'intention premiÃ¨re Â» de son auteur. \n\nVous prendrez part dans le role que vous dÃ©sirez et deviendrez peut-Ãªtre le sauveur de la terre du milieu.",
 	createdAt: new Date('April 3, 2014 09:03:00'),
 	author: 1
 },
 {
 	id: 3,
 	title: 'Star Trek',
-	intro: "Star Trek est un univers de science-fiction, créé par Gene Roddenberry, dans les années 1960, qui regroupe six séries télévisées, douze longs métrages, des centaines de romans, de bandes dessinées et des dizaines de jeux vidéo, ainsi qu’une fanfiction importante. Elle est, de manière plus prosaïque, une franchise de télévision et de cinéma appartenant à Paramount Pictures, propriété de la compagnie CBS",
-	text: "Star Trek est un univers de science-fiction, créé par Gene Roddenberry, dans les années 1960, qui regroupe six séries télévisées, douze longs métrages, des centaines de romans, de bandes dessinées et des dizaines de jeux vidéo, ainsi qu’une fanfiction importante. Elle est, de manière plus prosaïque, une franchise de télévision et de cinéma appartenant à Paramount Pictures, propriété de la compagnie CBS.\n\nDans l'univers Star Trek, l'humanité développe le voyage spatial à vitesse supraluminique, via un sub-espace artificiel, suite à une période post-apocalyptique du milieu du xxie siècle (voir le Jour du Premier Contact). Plus tard, l'homme s'unit à d'autres espèces intelligentes de la galaxie pour former la Fédération des planètes unies. À la suite d'une intervention extraterrestre, et grâce à la science, l'humanité surmonte largement ses nombreux vices et faiblesses terrestres, au xxiiie siècle. Les histoires de Star Trek dépeignent souvent les aventures d'êtres humains et d'espèces extra-terrestres qui servent dans Starfleet, ainsi que les nombreux contacts de ceux-ci avec d'autres civilisations.",
+	intro: "Star Trek est un univers de science-fiction, crÃ©Ã© par Gene Roddenberry, dans les annÃ©es 1960, qui regroupe six sÃ©ries tÃ©lÃ©visÃ©es, douze longs mÃ©trages, des centaines de romans, de bandes dessinÃ©es et des dizaines de jeux vidÃ©o, ainsi quÂ’une fanfiction importante. Elle est, de maniÃ¨re plus prosaÃ¯que, une franchise de tÃ©lÃ©vision et de cinÃ©ma appartenant Ã  Paramount Pictures, propriÃ©tÃ© de la compagnie CBS",
+	text: "Star Trek est un univers de science-fiction, crÃ©Ã© par Gene Roddenberry, dans les annÃ©es 1960, qui regroupe six sÃ©ries tÃ©lÃ©visÃ©es, douze longs mÃ©trages, des centaines de romans, de bandes dessinÃ©es et des dizaines de jeux vidÃ©o, ainsi quÂ’une fanfiction importante. Elle est, de maniÃ¨re plus prosaÃ¯que, une franchise de tÃ©lÃ©vision et de cinÃ©ma appartenant Ã  Paramount Pictures, propriÃ©tÃ© de la compagnie CBS.\n\nDans l'univers Star Trek, l'humanitÃ© dÃ©veloppe le voyage spatial Ã  vitesse supraluminique, via un sub-espace artificiel, suite Ã  une pÃ©riode post-apocalyptique du milieu du xxie siÃ¨cle (voir le Jour du Premier Contact). Plus tard, l'homme s'unit Ã  d'autres espÃ¨ces intelligentes de la galaxie pour former la FÃ©dÃ©ration des planÃ¨tes unies. Ã€ la suite d'une intervention extraterrestre, et grÃ¢ce Ã  la science, l'humanitÃ© surmonte largement ses nombreux vices et faiblesses terrestres, au xxiiie siÃ¨cle. Les histoires de Star Trek dÃ©peignent souvent les aventures d'Ãªtres humains et d'espÃ¨ces extra-terrestres qui servent dans Starfleet, ainsi que les nombreux contacts de ceux-ci avec d'autres civilisations.",
 	createdAt: new Date('January 23, 2014 11:45:00'),
 	author: 2
 }
 ];
 
-// Données agendas
+// DonnÃ©es agendas
 App.Agendas.FIXTURES = [
 {
 	id: 1,
@@ -425,14 +425,14 @@ App.Agendas.FIXTURES = [
 {
 	id: 2,
 	title:'Star Trek',
-	description:'Reconstitution de : La colère de Khan avec décors grandeur nature',
+	description:'Reconstitution de : La colÃ¨re de Khan avec dÃ©cors grandeur nature',
 	date: new Date('May 29, 2014 14:43:00'),
 	image:'images/startrek/StarTrekCast.jpg'
 },
 {
 	id: 3,
 	title:'Seigneur des anneaux',
-	description:'Aidez Aragone a combattre Saroumane et reconquérir la terre du milieu!',
+	description:'Aidez Aragone a combattre Saroumane et reconquÃ©rir la terre du milieu!',
 	date: new Date('Aprix 29, 2014 18:52:00'),
 	image:'images/lordsrings/SEIGNEUR_ANNEAUX.jpg'
 }
